@@ -1,0 +1,10 @@
+// Place all the styles related to the Pictures controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .nav {float: left;}
+}

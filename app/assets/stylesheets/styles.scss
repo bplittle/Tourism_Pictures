@@ -6,3 +6,13 @@ body {
   color: black;
   background-color: white;
 }
+
+.italics {
+  font-weight: normal;
+  font-style: italic;
+}
+.clickable {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}

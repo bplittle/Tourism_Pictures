@@ -4,6 +4,8 @@ class CitiesController < ApplicationController
   # GET /cities
   def index
     @cities = City.all
+    @providers = Provider.all
+    @pictures = Picture.all    
   end
 
   # GET /cities/1

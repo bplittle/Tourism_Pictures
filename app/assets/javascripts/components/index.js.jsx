@@ -7,6 +7,7 @@ var Index = React.createClass({
       city: '',
       map: false,
       markers: [],
+      infoWindow: new google.maps.InfoWindow(),
     };
   },
 
@@ -39,7 +40,7 @@ var Index = React.createClass({
       if(this.state.provider && this.state.city) { return pic.city_id == city_id && pic.provider_id == provider_id; }
       else if(this.state.provider) {return pic.provider_id == provider_id}
       else if(this.state.city) {return pic.city_id == city_id}
-      else {return [];}
+      else {return false;}
     });
     this.setState({pictures: pictures}, this.setMarkers);
   },
@@ -71,6 +72,7 @@ var Index = React.createClass({
   },
 
   setMarkers() {
+    var that = this;
     this.state.markers.forEach(marker => marker.setMap(null) );
 
     let instagrams = JSON.parse(JSON.stringify(this.state.pictures));
@@ -86,8 +88,7 @@ var Index = React.createClass({
           map: map,
           title: 'PLACEHOLDER TITLE'
       });
-      var content = '<div id="content"><p id="firstHeading" class="firstHeading">' + ig.title + '</p></div>';
-      var contentWindow = new google.maps.InfoWindow({content: content});
+      var content = '<div id="content"><p id="firstHeading" class="firstHeading">' + ig.title + '</p><img class="marker-img" src="' + ig.url + '"></img></div>';
 
       function toggleBounce() {
         if (marker.getAnimation() != null) {
@@ -97,7 +98,8 @@ var Index = React.createClass({
         };
       };
       google.maps.event.addListener(marker, 'click', function() {
-        contentWindow.open(map, marker);
+        that.state.infoWindow.setContent(content);
+        that.state.infoWindow.open(map, marker);
       });
       markers.push(marker);
       // google.maps.event.addListener(someMarker, 'click', toggleBounce, someInstagram);

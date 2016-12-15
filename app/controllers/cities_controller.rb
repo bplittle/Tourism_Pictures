@@ -5,7 +5,8 @@ class CitiesController < ApplicationController
   def index
     @cities = City.all
     @providers = Provider.all
-    @pictures = Picture.all    
+    @pictures = Picture.all
+    @google_maps_key = ENV['google_maps_key']
   end
 
   # GET /cities/1

@@ -25,6 +25,7 @@ a, a:hover, a:focus {
   position: relative;
   background-color: $light-grey;
   color: white;
+  margin-bottom: 0;
   a:hover, a:focus {text-decoration: none;}
   h3 {color: white; margin-top: 15px;}
   .nav {position: absolute; right: 0; top: 15px; color: white;}

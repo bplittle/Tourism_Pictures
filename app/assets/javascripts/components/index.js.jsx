@@ -3,7 +3,7 @@ var Index = React.createClass({
   getInitialState: function() {
     let presetCity = this.props.cities.find(city => window.location.href.indexOf(city.name) > -1);
     let presetPictures = presetCity ? this.props.pictures.filter(pic => pic.city_id === presetCity.id) : [];
-    let presetProviders = presetCity ? this.props.providers.filter(provider => provider.home_city === presetCity.id) : [];
+    let presetProviders = presetCity ? this.props.providers.filter(provider => provider.city_id === presetCity.id) : [];
 
     return {
       pictures: presetPictures,
@@ -14,16 +14,6 @@ var Index = React.createClass({
       infoWindow: new google.maps.InfoWindow(),
     };
   },
-
-  // clearState(value) {
-  //   let newState = {};
-  //   newState[value] = '';
-  //   this.setState(newState, this.getPictures);
-  //   if(value = 'city') {
-  //     this.state.map.setZoom(1);
-  //     this.state.map.panTo([0, 0]);
-  //   }
-  // },
 
   citySelect(city) {
     this.setState({city: city}, this.getProviders);
@@ -38,14 +28,7 @@ var Index = React.createClass({
   },
 
   getPictures() {
-    let city_id = this.state.city.id;
-    // let provider_id = this.state.provider;
-    let pictures = this.props.pictures.filter(pic => {
-      // if(this.state.provider && this.state.city) { return pic.city_id == city_id && pic.provider_id == provider_id; }
-      // else if(this.state.provider) {return pic.provider_id == provider_id}
-      if(this.state.city) {return pic.city_id == city_id}
-      else {return false;}
-    });
+    let pictures = this.props.pictures.filter(pic => pic.city_id === this.state.city.id);
     this.setState({pictures: pictures}, this.setMarkers);
   },
 
@@ -55,7 +38,7 @@ var Index = React.createClass({
     let citySummary = this.state.city ? <div className="city-summary col-xs-12"><h2>{this.state.city.name}</h2>{this.state.city.description}</div> : '';
     let featuredPics = this.state.pictures.map( (pic, index) => {
       if(index < 3) {
-        return <div className="col-xs-4 featured-image"><img src={pic.url}></img></div>
+        return <div className="col-xs-4 featured-image" key={pic.id}><img src={pic.url}></img></div>
       }
     });
     return (
@@ -68,7 +51,7 @@ var Index = React.createClass({
           {featuredPics}
           <div id="map-canvas" className="col-sm-8"></div>
           <div className="col-sm-4 providers">
-            {this.state.providers.map(provider => <div key={provider.id}>{provider.name}</div>)}
+            {this.state.providers.map(provider => <div key={provider.id}>{provider.username}</div>)}
           </div>
         </div>
       </div>
@@ -114,11 +97,17 @@ var Index = React.createClass({
   componentDidMount() {
     var myLatlng = new google.maps.LatLng(0, 0);
     var mapOptions = {
+      scrollwheel: false,
       zoom: 1,
       center: myLatlng,
       styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#6195a0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#e6f3d6"},{"visibility":"on"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45},{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#f4d2c5"},{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"labels.text","stylers":[{"color":"#4e4e4e"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#f4f4f4"}]},{"featureType":"road.arterial","elementType":"labels.text.fill","stylers":[{"color":"#787878"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#eaf6f8"},{"visibility":"on"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#eaf6f8"}]}]
     }
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    if(this.state.city) {
+      map.setZoom(5);
+      var latlng = new google.maps.LatLng(this.state.city.location[0],this.state.city.location[1]);
+      map.panTo(latlng);
+    }
     this.setState({map: map}, this.setMarkers);
 
 

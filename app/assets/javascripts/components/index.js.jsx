@@ -51,6 +51,7 @@ var Index = React.createClass({
           {featuredPics}
           <div id="map-canvas" className="col-sm-8"></div>
           <div className="col-sm-4 providers">
+            <h4 className="underline">City Influencers</h4>
             {this.state.providers.map(provider => <div key={provider.id}>{provider.username}</div>)}
           </div>
         </div>

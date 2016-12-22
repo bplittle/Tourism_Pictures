@@ -1,0 +1,39 @@
+$light-grey: #ddd;
+$dark-grey: #888;
+
+.page-header {
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  .city-link {
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+    width: 100px;
+    cursor: pointer;
+    &:hover {color: $dark-grey;}
+  }
+
+  border-bottom: 1px black solid;
+}
+
+.container {
+  background-color: $light-grey;
+  &>div {
+    padding: 20px 40px;
+  }
+  .city-summary {
+    background: $dark-grey;
+    color: white;
+    h2 {text-align: center; text-transform: uppercase;}
+  }
+
+  .featured-image {
+    padding: 0;
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+}

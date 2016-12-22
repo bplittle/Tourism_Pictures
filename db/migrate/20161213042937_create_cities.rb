@@ -5,7 +5,7 @@ class CreateCities < ActiveRecord::Migration
       t.float :location, array: true
       t.string :country
       t.string :state
-
+      t.string :description
       t.timestamps null: false
     end
   end

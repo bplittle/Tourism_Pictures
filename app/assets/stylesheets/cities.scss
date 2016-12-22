@@ -3,9 +3,12 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #map-canvas {
-  width: 100%;
   height: 400px;
-  margin-top: 15px;
+}
+
+.providers {
+  min-height: 400px;
+  background-color: white;
 }
 
 .marker-img {

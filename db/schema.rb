@@ -18,11 +18,12 @@ ActiveRecord::Schema.define(version: 20161213043022) do
 
   create_table "cities", force: :cascade do |t|
     t.string   "name"
-    t.float    "location",                array: true
+    t.float    "location",                 array: true
     t.string   "country"
     t.string   "state"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "pictures", force: :cascade do |t|
@@ -41,10 +42,10 @@ ActiveRecord::Schema.define(version: 20161213043022) do
   create_table "providers", force: :cascade do |t|
     t.string   "username"
     t.string   "real_name"
-    t.string   "home_city"
     t.integer  "city_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.json     "links",      default: {}
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
 end

@@ -7,16 +7,16 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-vancouver = City.create(name: 'Vancouver', location: [49, -90])
-mexico = City.create(name: 'Mexico City', location: [20, -80])
-City.create(name: 'Bangkok', location: [12, 102])
-City.create(name: 'Delhi', location: [20, 20])
-penh = City.create(name: 'Phnom Penh', location: [10, 105])
+vancouver = City.create(name: 'Vancouver', country: 'Canada', location: [49, -125], description: 'This is a city description alskdfjlaksdfklajsdlfkj lorum ipsum')
+montreal = City.create(name: 'Montreal', country: 'Canada', location: [49, -80], description: 'This is a city description alskdfjlaksdfklajsdlfkj lorum ipsum')
+toronto = City.create(name: 'Toronto', country: 'Canada', location: [40, -90], description: 'This is a city description alskdfjlaksdfklajsdlfkj lorum ipsum')
 
-scott = Provider.create(username: 'Wilkinstagram')
-jittle = Provider.create(username: 'Jittle')
+scott = Provider.create(username: 'Wilkinstagram', city: vancouver, links: {instagram: 'http://www.wilkinstagram.com', website: 'http://www.wilkinstagram.com'})
+jittle = Provider.create(username: 'Jittle', city: vancouver, links: {instagram: 'http://www.wilkinstagram.com', website: 'http://www.wilkinstagram.com'})
+francois = Provider.create(username: 'Francois', city: vancouver, links: {instagram: 'http://www.wilkinstagram.com', website: 'http://www.wilkinstagram.com'})
 
-Picture.create(provider: scott, city: penh, location: [10, 130], url: 'https://scontent-sea1-1.cdninstagram.com/t51.2885-15/e35/14565029_1136644063119976_6039926153752346624_n.jpg', title: 'World Housing picture')
-Picture.create(provider: scott, city: mexico, url: 'https://scontent-sea1-1.cdninstagram.com/t51.2885-15/e35/14676733_1200155523377007_4474335305058484224_n.jpg', title: 'Mexi City Blvd')
-Picture.create(provider: jittle, city: mexico, url: 'https://scontent-sea1-1.cdninstagram.com/t51.2885-15/e35/14504740_342845162739229_3498698342349668352_n.jpg?ig_cache_key=MTM3OTQxOTQ5MjgzMjk3MjU3Mg%3D%3D.2', title: 'Mexi City Museum')
+
+Picture.create(provider: scott, city: vancouver, url: 'https://scontent-sea1-1.cdninstagram.com/t51.2885-15/e35/14565029_1136644063119976_6039926153752346624_n.jpg', title: 'World Housing picture')
+Picture.create(provider: scott, city: vancouver, url: 'https://scontent-sea1-1.cdninstagram.com/t51.2885-15/e35/14676733_1200155523377007_4474335305058484224_n.jpg', title: 'Mexi City Blvd')
+Picture.create(provider: jittle, city: vancouver, url: 'https://scontent-sea1-1.cdninstagram.com/t51.2885-15/e35/14504740_342845162739229_3498698342349668352_n.jpg?ig_cache_key=MTM3OTQxOTQ5MjgzMjk3MjU3Mg%3D%3D.2', title: 'Mexi City Museum')
 Picture.create(provider: jittle, city: vancouver, url: 'https://www.instagram.com/p/BLEcGWcD6jA', title: 'coal harbour')

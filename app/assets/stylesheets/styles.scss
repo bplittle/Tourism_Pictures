@@ -1,10 +1,38 @@
 $line-height-base: 14px;
+$light-grey: #ddd;
+$dark-grey: #888;
 
 body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Palatino",Palatino, Palatino Linotype, Palatino LT STD, Book Antiqua, Georgia, serif;
   font-size: $line-height-base;
   color: black;
   background-color: white;
+  padding: 0;
+}
+
+.container {
+  padding: 20px;
+}
+
+a, a:hover, a:focus {
+  color: inherit;
+  text-decoration: none;
+  background: transparent;
+}
+
+.header {
+  text-align: center;
+  position: relative;
+  background-color: $light-grey;
+  color: white;
+  a:hover, a:focus {text-decoration: none;}
+  h3 {color: white; margin-top: 15px;}
+  .nav {position: absolute; right: 0; top: 15px; color: white;}
+  .nav>li>a {color: white;}
+  .nav>li>a:hover, .nav>li>a:focus {
+    color: $dark-grey;
+    background-color: transparent;
+  }
 }
 
 .italics {

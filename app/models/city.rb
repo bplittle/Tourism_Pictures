@@ -16,5 +16,4 @@ class City < ActiveRecord::Base
   has_many :pictures
   has_many :providers
 
-
 end

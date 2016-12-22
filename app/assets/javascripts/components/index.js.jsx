@@ -1,72 +1,76 @@
 var Index = React.createClass({
 
   getInitialState: function() {
+    let presetCity = this.props.cities.find(city => window.location.href.indexOf(city.name) > -1);
+    let presetPictures = presetCity ? this.props.pictures.filter(pic => pic.city_id === presetCity.id) : [];
+    let presetProviders = presetCity ? this.props.providers.filter(provider => provider.home_city === presetCity.id) : [];
+
     return {
-      pictures: [],
-      provider: '',
-      city: '',
+      pictures: presetPictures,
+      providers: presetProviders,
+      city: presetCity,
       map: false,
       markers: [],
       infoWindow: new google.maps.InfoWindow(),
     };
   },
 
-  clearState(value) {
-    let newState = {};
-    newState[value] = '';
-    this.setState(newState, this.getPictures);
-    if(value = 'city') {
-      this.state.map.setZoom(1);
-      this.state.map.panTo([0, 0]);
-    }
-  },
+  // clearState(value) {
+  //   let newState = {};
+  //   newState[value] = '';
+  //   this.setState(newState, this.getPictures);
+  //   if(value = 'city') {
+  //     this.state.map.setZoom(1);
+  //     this.state.map.panTo([0, 0]);
+  //   }
+  // },
 
-  citySelect(e) {
-    this.setState({city: e.target.value}, this.getPictures);
-    let city = this.props.cities.find(c => c.id == e.target.value);
+  citySelect(city) {
+    this.setState({city: city}, this.getProviders);
     this.state.map.setZoom(5);
     var latlng = new google.maps.LatLng(city.location[0],city.location[1]);
     this.state.map.panTo(latlng);
   },
 
-  providerSelect(e) {
-    this.setState({provider: e.target.value}, this.getPictures);
+  getProviders() {
+    let providers = this.props.providers.filter(p => p.city_id === this.state.city.id);
+    this.setState({providers: providers}, this.getPictures)
   },
 
   getPictures() {
-    let city_id = this.state.city;
-    let provider_id = this.state.provider;
+    let city_id = this.state.city.id;
+    // let provider_id = this.state.provider;
     let pictures = this.props.pictures.filter(pic => {
-      if(this.state.provider && this.state.city) { return pic.city_id == city_id && pic.provider_id == provider_id; }
-      else if(this.state.provider) {return pic.provider_id == provider_id}
-      else if(this.state.city) {return pic.city_id == city_id}
+      // if(this.state.provider && this.state.city) { return pic.city_id == city_id && pic.provider_id == provider_id; }
+      // else if(this.state.provider) {return pic.provider_id == provider_id}
+      if(this.state.city) {return pic.city_id == city_id}
       else {return false;}
     });
     this.setState({pictures: pictures}, this.setMarkers);
   },
 
   render() {
+    let cityWidth = 1 / this.props.cities.length * 100;
+    let cityStyle = {width: `${cityWidth}%`};
+    let citySummary = this.state.city ? <div className="city-summary col-xs-12"><h2>{this.state.city.name}</h2>{this.state.city.description}</div> : '';
+    let featuredPics = this.state.pictures.map( (pic, index) => {
+      if(index < 3) {
+        return <div className="col-xs-4 featured-image"><img src={pic.url}></img></div>
+      }
+    });
     return (
       <div>
-        <div className="col-xs-6">
-          <label>City <span className="italics clickable" onClick={this.clearState.bind(this, 'city')}> (Clear) </span></label>
-          <select value={this.state.city} onChange={this.citySelect} className="form-control">
-            <option value="" disabled>Select a city</option>
-            {this.props.cities.map(city => <option key={city.id} value={city.id}>{city.name}</option>)}
-          </select>
+        <div className="page-header">
+          {this.props.cities.map(city => <a href={`#${city.name}`} className="city-link" key={city.id} onClick={this.citySelect.bind(this, city)} style={cityStyle}>{city.name}</a>)}
         </div>
-        <div className="col-xs-6">
-          <label>Traveller <span className="italics clickable" onClick={this.clearState.bind(this, 'provider')}> (Clear)</span></label>
-          <select value={this.state.provider} onChange={this.providerSelect} className="form-control">
-            <option value="" disabled>Select a traveller</option>
-            {this.props.providers.map(provider => <option key={provider.id} value={provider.id}>{provider.username}</option>)}
-          </select>
+        <div className="container">
+          {citySummary}
+          {featuredPics}
+          <div id="map-canvas" className="col-sm-8"></div>
+          <div className="col-sm-4 providers">
+            {this.state.providers.map(provider => <div key={provider.id}>{provider.name}</div>)}
+          </div>
         </div>
-        <br></br>
-        {this.state.pictures.map(pic => <p>{pic.title}</p>)}
-        <br></br>
-        <br></br>
-        <div id="map-canvas"></div>
       </div>
     );
   },
